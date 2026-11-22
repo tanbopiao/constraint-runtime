@@ -1,0 +1,41 @@
+{
+  "package": "示例规则包 · 差旅报销场景",
+  "version": "v0.1",
+  "fail_closed": true,
+  "rules": [
+    {
+      "id": "R1",
+      "title": "单笔限额",
+      "status": "live",
+      "match": {"all": [
+        {"field": "fields.amount", "op": ">", "value": 3000},
+        {"field": "fields.category", "op": "==", "value": "餐饮"}
+      ]},
+      "message": "餐饮单笔超过 3000，须走分级审批"
+    },
+    {
+      "id": "R2",
+      "title": "凭证缺失",
+      "status": "live",
+      "match": {"field": "fields.receipt_id", "op": "not_exists"},
+      "message": "无凭证不予受理"
+    },
+    {
+      "id": "R3",
+      "title": "施压话术观察",
+      "status": "shadow",
+      "match": {"field": "text", "op": "regex", "value": "加急|特批|通融|领导打招呼"},
+      "message": "出现疑似人情施压话术，先记账观察"
+    },
+    {
+      "id": "R4",
+      "title": "拆单识别",
+      "status": "shadow",
+      "match": {"all": [
+        {"field": "fields.amount", "op": "<", "value": 1000},
+        {"field": "context.same_day_count", "op": ">=", "value": 3}
+      ]},
+      "message": "同日多笔小额，疑似拆单，先记账观察"
+    }
+  ]
+}
