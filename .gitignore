@@ -1,0 +1,4 @@
+__pycache__/
+*.pyc
+.ms_upload_cache/
+.nfs*
