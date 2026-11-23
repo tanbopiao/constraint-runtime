@@ -2,7 +2,7 @@
 
 > 给通用智能体/具身智能装上笼头的四个小部件：**围栏规则引擎、影子运行器、熔断停机器、留痕重放器**。
 >
-> 元极恒一 · ZONGYUAN-ROOT
+> 元极恒一
 > 纯 Python 标准库实现，零第三方依赖，单文件即用。
 
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
@@ -97,4 +97,4 @@ verdict = engine.evaluate({
 
 ---
 
-元极恒一 · ZONGYUAN-ROOT
+元极恒一
