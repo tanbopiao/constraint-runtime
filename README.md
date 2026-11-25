@@ -1,4 +1,126 @@
-{"name":"README.md","path":"README.md","sha":"1d4d8bfb77fc68cc4721dbd2d439d7ead306e877","size":5959,"url":"https://api.github.com/repos/tanbopiao/constraint-runtime/contents/README.md?ref=main","html_url":"https://github.com/tanbopiao/constraint-runtime/blob/main/README.md","git_url":"https://api.github.com/repos/tanbopiao/constraint-runtime/git/blobs/1d4d8bfb77fc68cc4721dbd2d439d7ead306e877","download_url":"https://raw.githubusercontent.com/tanbopiao/constraint-runtime/main/README.md","type":"file","content":"IyBjb25zdHJhaW50LXJ1bnRpbWUgwrcg5pm66IO95L2T57qm5p2f6L+Q6KGM\n5pe257uE5Lu26ZuGCgo+IOe7memAmueUqOaZuuiDveS9ky/lhbfouqvmmbro\ng73oo4XkuIrnrLzlpLTnmoTkupTkuKrlsI/pg6jku7bvvJoqKuWbtOagj+in\nhOWImeW8leaTjuOAgeW9seWtkOi/kOihjOWZqOOAgeeGlOaWreWBnOacuuWZ\nqOOAgeeVmeeXlemHjeaUvuWZqOOAgee7k+eul+WHreivgemXuCoq44CCCj4K\nPiDlhYPmnoHmgZLkuIAKPiDnuq8gUHl0aG9uIOagh+WHhuW6k+WunueOsO+8\njOmbtuesrOS4ieaWueS+nei1lu+8jOWNleaWh+S7tuWNs+eUqOOAggoKWyFb\nTGljZW5zZV0oaHR0cHM6Ly9pbWcuc2hpZWxkcy5pby9iYWRnZS9MaWNlbnNl\nLUFwYWNoZV8yLjAtYmx1ZS5zdmcpXShMSUNFTlNFKQoKIyMg5Li65LuA5LmI\n6ZyA6KaB5a6DCgrlpKfmqKHlnovpqbHliqjnmoTmmbrog73kvZPlkozlhbfo\nuqvmmbrog73lnKjop4TmqKHljJbpg6jnvbLml7bmnInkuIDkuKrlhbHlkIzn\nmoTlnZHvvJoqKuaooeWei+eahOihjOS4uuepuumXtOaYr+W8gOaUvueahO+8\njOmUmeivr+S4jeaYr+e6v+aAp+WinuWKoO+8jOiAjOaYr+WkjeWQiOWinumV\nvyoq4oCU4oCUMSUg55qE5Y2V5qyh5Ye66ZSZ546HIMOXIDEwMDAg5Y+w6K6+\n5aSHIMOXIOavj+WkqeS4iuWNg+asoeWGs+etliA9IOaMgee7reS4jeaWreea\nhOaVhemanOa1ge+8jOacgOe7iOaLluWerueahOS4jeaYr+S6p+WTgeWPo+ei\nke+8jOaYr+i/kOe7tOWboumYn+OAggoK5Lyg57uf6L+Q57u055qEIFNMQeOA\ngeebkeaOp+OAgeWbnua7mumDveW7uueri+WcqOOAjOihjOS4uuepuumXtOac\nieeVjOOAgeWPr+aemuS4vuOAjeeahOWJjeaPkOS4iu+8jOmAmueUqOaZuuiD\nveS9k+aJk+egtOS6hui/meS4quWJjeaPkOOAguino+azleS4jeaYr+abtOW8\nuueahOaooeWei++8jOiAjOaYryoq57qm5p2f546v5aKDKirjgILmnKznu4Tk\nu7bpm4bmiornuqbmnZ/njq/looPnmoTkupTkuKrlhbPplK7njq/oioLlgZrm\niJDlj6/ku6Xnm7TmjqXltYzlhaXlhrPnrZbmtYHnmoTpg6jku7bvvJoKCmBg\nYArmqKHlnovnu5nlh7rlhrPnrZYKICAg4pSCCiAgIOKWvArilIzilIDilIDi\nlIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilJAgICDlvILl\nuLgv6KeE5YiZ566X6ZSZIOKGkiDkuIDlvovmi5Lnu53vvIhmYWlsLWNsb3Nl\nZO+8iQrilIIg4pGgIOWbtOagj+inhOWImeW8leaTjiDilILilIDilIDihpIg\nbGl2ZSDop4TliJnlkb3kuK0g4oaSIOaLpuaIqgrilIIgIO+8iOinhOWImeaY\nr+aVsOaNru+8iSDilILilIDilIDihpIgc2hhZG93IOinhOWImeWRveS4rSDi\nhpIg5Y+q6K6w5LiN5oumCuKUlOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKU\ngOKUgOKUgOKUgOKUgOKUgOKUmAogICDilIIg5pS+6KGMCiAgIOKWvArilIzi\nlIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilJAg\nICDmlrDniYjmnKwv5paw6KeE5YiZ5YWI5bm26KGM5a+554Wn77yaCuKUgiDi\nkaEg5b2x5a2Q6L+Q6KGM5ZmoICAg4pSCICAg56C05Y+j77yI5q+U5Z+657q/\n5p2+77yJL+ivr+S8pO+8iOavlOWfuue6v+S4pe+8ieWIhui0pu+8jArilIIg\n77yI5Y+q6K6w5LiN55Sf5pWI77yJICDilIIgICDov57nu60gTiDnqpflj6Pp\nm7bnoLTlj6Ppm7bor6/kvKQg4oaSIOe7meWHuui9rOato+W7uuiuru+8iOS6\nuuW3peaLjeadv++8iQrilJTilIDilIDilIDilIDilIDilIDilIDilIDilIDi\nlIDilIDilIDilIDilIDilJgKICAg4pSCCuKUjOKUgOKUgOKUgOKUgOKUgOKU\ngOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUkCAgIOi/nue7reWksei0pS/l\npLHotKXnjofotornlYwv5pi+5byP5L+h5Y+3IOKGkiDnhpTmlq3lgZzmnLrv\nvIwK4pSCIOKRoiDnhpTmlq3lgZzmnLrlmaggICDilIIgICDlhrfljbTlkI7m\nlL7ooYzmjqLpkojvvIzmjqLpkojmiJDlip/miY3mgaLlpI0K4pSU4pSA4pSA\n4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSYCiAgIOKU\nggrilIzilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDi\nlIDilJAgICDmr4/mrKHliKTlrprlhaXlk4jluIzpk77lj7DotKbvvJvnr6Hm\nlLnlj6/lj5HnjrDvvJsK4pSCIOKRoyDnlZnnl5Xph43mlL7lmaggICDilIIg\nICDnlKjlvZPliY3op4TliJnljIXnprvnur/ph43mlL7vvIzph43nrpfnu5Po\nrrrkuI7ljp/liKTkuIDoh7QgPSDlj6/lpI3nrpcK4pSU4pSA4pSA4pSA4pSA\n4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSYCiAgIOKUggrilIzi\nlIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilJAg\nICDorqTpoobljbPnrb7lj5HjgIHlm57lhpnljbPmoLjpqozjgIHph43or5Xl\njbPkvZzlup/vvJoK4pSCIOKRpCDnu5Pnrpflh63or4Hpl7ggICDilIIgICDo\nv4fmnJ/miafooYzogIXnmoTov5/liLDlm57lhpnkuIDlvovmi5Lnu53vvIjp\nm7blia/kvZznlKjvvInvvIwK4pSCICDvvIjkuovkuK3pmLLmsaHmn5PvvIkg\n4pSCICAg5bey5a6a54q25oCB5LiN6KKr5bSp5rqD5oGi5aSNL+mHjeivleer\nnuaAgeaUueWGmQrilJTilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDi\nlIDilIDilIDilIDilJgKYGBgCgojIyDljYHliIbpkp/kuIrmiYsKCmBgYGJh\nc2gKZ2l0IGNsb25lIGh0dHBzOi8vZ2l0aHViLmNvbS90YW5ib3BpYW8vY29u\nc3RyYWludC1ydW50aW1lLmdpdApjZCBjb25zdHJhaW50LXJ1bnRpbWUKYmFz\naCBxdWlja3N0YXJ0LnNoICAgICAgICAjIOS4gOadoeWRveS7pO+8muiHquaj\ngCDihpIg56uv5Yiw56uv5ryU56S6IOKGkiDnr6HmlLnlj5HnjrDlrp7pqowK\nYGBgCgpgcXVpY2tzdGFydC5zaGAg5Lya5L6d5qyh6LeR5a6M5LiJ5q2l77yM\n5YWo56iL57qmIDEg5YiG6ZKf77yaCgoxLiAqKuWbm+S7tue7hOS7tuiHquaj\ngCoq4oCU4oCU5q+P5Liq6YOo5Lu25ZCE6Ieq6K+B5piO6Ieq5bex5piv5aW9\n55qE77ybCjIuICoq56uv5Yiw56uv5ryU56S6KirigJTigJTnnIvlm5vmrrXo\nvpPlh7rvvJrlm7TmoI/mi6bmiKrvvIhCTE9DS++8ieOAgeW9seWtkOiusOi0\npu+8iOWPquiusOS4jeaLpu+8ieOAgeW9seWtkOWvueeFp+aKpeWRiuS4jui9\nrOato+W7uuiuruOAgeWTiOW4jOmTvuagoemqjOS4jumHjeaUvuS4gOiHtOaA\np++8mwozLiAqKuevoeaUueWPkeeOsOWunumqjCoq4oCU4oCU5Lqy5omL5oqK\n5Y+w6LSm6YeM5LiA56yUIDUwMDAg5pS55oiQIDUw77yM6ZO+5qCh6aqM5b2T\n5Zy65oql5LiN5LiA6Ie044CCCgrnnIvlrozov5nkuInmraXvvIzkvaDlsLHo\np4Hov4fnuqbmnZ/ov5DooYzml7bnmoTlhajpg6jmoLjlv4PooYzkuLrjgILm\njqXkuIvmnaXmjInjgIznlKjms5XnpLrkvovjgI3mioogYEZlbmNlRW5naW5l\nYCDltYzov5vkvaDnmoTlhrPnrZbmtYHvvIzliankuIvnmoTnu4Tku7bmjInp\nnIDpgJDkuKrliqDjgIIKCiMjIOW/q+mAn+W8gOWniwoKYGBgYmFzaAojIOi3\nkeerr+WIsOerr+a8lOekuu+8iOWbm+S7tue7hOS7tuiBlOWKqO+8iQpweXRo\nb24zIGV4YW1wbGVzL2RlbW8ucHkKCiMg6LeR5ZCE57uE5Lu26Ieq5qOACnB5\ndGhvbjMgc3JjL2ZlbmNlX3J1bGVfZW5naW5lLnB5IHNlbGZ0ZXN0CnB5dGhv\nbjMgc3JjL3NoYWRvd19ydW5uZXIucHkgc2VsZnRlc3QKcHl0aG9uMyBzcmMv\nY2lyY3VpdF9icmVha2VyLnB5IHNlbGZ0ZXN0CnB5dGhvbjMgc3JjL3JlcGxh\neV9sZWRnZXIucHkgc2VsZnRlc3QKcHl0aG9uMyBzcmMvc2V0dGxlbWVudF9y\nZWNlaXB0X2dhdGUucHkgc2VsZnRlc3QKYGBgCgojIyDnlKjms5XnpLrkvosK\nCmBgYHB5dGhvbgpmcm9tIGZlbmNlX3J1bGVfZW5naW5lIGltcG9ydCBGZW5j\nZUVuZ2luZQoKZW5naW5lID0gRmVuY2VFbmdpbmUoImV4YW1wbGVzL3J1bGVz\nX2V4YW1wbGUuanNvbiIpCgp2ZXJkaWN0ID0gZW5naW5lLmV2YWx1YXRlKHsK\nICAgICJmaWVsZHMiOiB7ImFtb3VudCI6IDUwMDAsICJjYXRlZ29yeSI6ICLp\npJDppa4iLCAicmVjZWlwdF9pZCI6ICJSLTAwMiJ9LAogICAgInRleHQiOiAi\n5a6i5oi36IGa6aSQIiwKfSkKIyB2ZXJkaWN0ID0gewojICAgImRlY2lzaW9u\nIjogIkJMT0NLIiwgICAgICAgICAgICAjIFBBU1MgLyBCTE9DSyAvIEZBSUxf\nQ0xPU0VECiMgICAiaGl0cyI6ICAgIFt7InJ1bGUiOiAiUjEiLCAuLi59XSwg\nICAjIGxpdmUg6KeE5YiZ5ZG95Lit77yI5oum5oiq77yJCiMgICAibm90ZXMi\nOiAgIFsuLi5dLCAgICAgICAgICAgICAgICAgICAgIyBzaGFkb3cg6KeE5YiZ\n5ZG95Lit77yI5Y+q6K6w5LiN5oum77yJCiMgICAiZW5naW5lIjogICJmZW5j\nZS1ydWxlLWVuZ2luZSB2MC4xIgojIH0KYGBgCgrop4TliJnljIXmmK/lpJbm\njILnmoQgSlNPTuKAlOKAlCoq6KeE5YiZ5piv5pWw5o2u77yM5byV5pOO5piv\n5Luj56CBKirvvJrmjaLop4TliJnkuI3mlLnlvJXmk47vvIzng63mm7TmlrDl\njbPnlJ/mlYjvvIzkuJTlpKnnhLbmu6HotrPjgIzoo4HliKTkuI7ooqvmtYvk\nuI3lkIzmupDjgI3vvIjlvJXmk47kuI3nlKjmqKHlnovliKTvvIzmqKHlnovo\nh6rlt7Hor7TkuobkuI3nrpfvvInjgILop4TliJnmoLzlvI/jgIHnu4TlkIjm\nnaHku7bvvIhhbGwvYW5577yJ44CB5q+U6L6D566X5a2Q6KeBIGBleGFtcGxl\ncy9ydWxlc19leGFtcGxlLmpzb25gIOS4juWQhOe7hOS7tiBkb2NzdHJpbmfj\ngIIKCiMjIOiuvuiuoeWOn+WImQoKMS4gKipmYWlsLWNsb3NlZCoq77ya6KeE\n5YiZ5YyF5o2f5Z2P44CB5Y2V5p2h6KeE5YiZ5rGC5YC85byC5bi444CB54q2\n5oCB5LiN5piO4oCU4oCU5LiA5b6L5ouS57ud5pS+6KGM44CC5a6B5Y+v5YGc\n5py6562J5Lq677yM5LiN5bim55eF57un57ut6LeR44CCCjIuICoq5b2x5a2Q\n5LyY5YWIKirvvJrku7vkvZXlj5jmm7TlhYjlubbooYzop4Llr5/jgIHph4/l\njJbovazmraPvvIjpm7bnoLTlj6Ppm7bor6/kvKTvvInvvIzlvJXmk47lj6ro\nrrDotKbvvIzovazmraPnlLHkurrmi43mnb/jgIIKMy4gKirlhajnqIvnlZnn\nl5XjgIHlj6/lpI3nrpcqKu+8muWIpOWumuWFpeWTiOW4jOmTvu+8jOesrOS4\nieaWueWPr+eUqOeVmeWtmOS6i+S7tuS4juinhOWImeWMheemu+e6v+mHjeaU\nvu+8jOmHjeeul+e7k+iuuuS4juWOn+WIpOS4gOiHtOaJjeeul+aVsOOAggo0\nLiAqKumbtuS+nei1lioq77ya57qvIFB5dGhvbiDmoIflh4blupPvvIzljZXm\nlofku7bljbPnlKjvvIzmlrnkvr/ltYzlhaXnjrDmnInmnI3liqHjgIIKCiMj\nIOmAgueUqOWcuuaZrwoKLSDmmbrog73kvZMvQWdlbnQg5Yaz562W5rWB55qE\n6L+Q6KGM5pe256Gs57qm5p2f77yI5a6h5om544CB5pSv5LuY44CB5pWw5o2u\n6K6/6Zeu562J5pWP5oSf5Yqo5L2c5YmN572u5qCh6aqM77yJCi0g5YW36Lqr\n5pm66IO9L+acuuWZqOS6uuWGs+etlueahOWbtOagj+S4jueGlOaWre+8iOeJ\nqeeQhuS4lueVjOmUmeivr+S4jeWPr+mHjeivle+8jOWugeWBnOWLv+mUme+8\niQotIOaWsOinhOWImS/mlrDmqKHlnovnmoTngbDluqblr7nnhafkuI7ph4/l\njJbovazmraMKLSDpnIDopoHlkJHlrqLmiLcv5a6h6K6h5pa56Ieq6K+B44CM\n5oum5b6X5L2P44CB6K+05b6X5riF44CN55qE5ZCI6KeE5Zy65pmvCgojIyDo\nvrnnlYzkuI7or5rlrp7lo7DmmI4KCi0g5pys57uE5Lu26ZuG5pivKirov5Do\noYzml7bnuqbmnZ8qKuW3peWFt++8jOS4jeabv+S7o+S4iue6v+WJjeeahOiv\nhOa1i+WHhuWFpe+8iOivpeS4jeivpeaUvui/m+adpe+8jOWFiOiAg+i/h+WG\njeivtO+8ie+8mwotIOWTiOW4jOmTvumYsuevoeaUueeahOi+ueeVjO+8muiD\nveWQjOaXtuS/ruaUueaWh+S7tuS4juWPsOi0pueahOacrOWcsOaUu+WHu+iA\nheS4jeWcqOmYsuW+oeiMg+WbtOWGhe+8jOS4u+W8oOS7hemZkOOAjOWvuei0\npuS4jeS4gOiHtOWPr+WPkeeOsOOAje+8mwotIOW9seWtkOi9rOato+OAgeeG\nlOaWremYiOWAvOmcgOimgee7k+WQiOS4muWKoeWcuuaZr+iwg+WPgu+8jOe7\nhOS7tuaPkOS+m+acuuWItu+8jOS4jeaPkOS+m+S4h+iDvem7mOiupOWAvOOA\nggoKIyMgTGljZW5zZQoKW0FwYWNoZSBMaWNlbnNlIDIuMF0oTElDRU5TRSkK\nCi0tLQoK5YWD5p6B5oGS5LiACg==\n","encoding":"base64","_links":{"self":"https://api.github.com/repos/tanbopiao/constraint-runtime/contents/README.md?ref=main","git":"https://api.github.com/repos/tanbopiao/constraint-runtime/git/blobs/1d4d8bfb77fc68cc4721dbd2d439d7ead306e877","html":"https://github.com/tanbopiao/constraint-runtime/blob/main/README.md"}}
+# constraint-runtime · 智能体约束运行时组件集
+
+> 给通用智能体/具身智能装上笼头的五个小部件：**围栏规则引擎、影子运行器、熔断停机器、留痕重放器、结算凭证闸**。
+>
+> 元极恒一
+> 纯 Python 标准库实现，零第三方依赖，单文件即用。
+
+[![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
+
+## 为什么需要它
+
+大模型驱动的智能体和具身智能在规模化部署时有一个共同的坑：**模型的行为空间是开放的，错误不是线性增加，而是复合增长**——1% 的单次出错率 × 1000 台设备 × 每天上千次决策 = 持续不断的故障流，最终拖垮的不是产品口碑，是运维团队。
+
+传统运维的 SLA、监控、回滚都建立在「行为空间有界、可枚举」的前提上，通用智能体打破了这个前提。解法不是更强的模型，而是**约束环境**。本组件集把约束环境的五个关键环节做成可以直接嵌入决策流的部件：
+
+```
+模型给出决策
+   │
+   ▼
+┌──────────────┐   异常/规则算错 → 一律拒绝（fail-closed）
+│ ① 围栏规则引擎 │──→ live 规则命中 → 拦截
+│  （规则是数据） │──→ shadow 规则命中 → 只记不拦
+└──────────────┘
+   │ 放行
+   ▼
+┌──────────────┐   新版本/新规则先并行对照：
+│ ② 影子运行器   │   破口（比基线松）/误伤（比基线严）分账，
+│ （只记不生效）  │   连续 N 窗口零破口零误伤 → 给出转正建议（人工拍板）
+└──────────────┘
+   │
+┌──────────────┐   连续失败/失败率越界/显式信号 → 熔断停机，
+│ ③ 熔断停机器   │   冷却后放行探针，探针成功才恢复
+└──────────────┘
+   │
+┌──────────────┐   每次判定入哈希链台账；篡改可发现；
+│ ④ 留痕重放器   │   用当前规则包离线重放，重算结论与原判一致 = 可复算
+└──────────────┘
+   │
+┌──────────────┐   认领即签发、回写即核验、重试即作废：
+│ ⑤ 结算凭证闸   │   过期执行者的迟到回写一律拒绝（零副作用），
+│  （事中防污染） │   已定状态不被崩溃恢复/重试竞态改写
+└──────────────┘
+```
+
+## 十分钟上手
+
+```bash
+git clone https://github.com/tanbopiao/constraint-runtime.git
+cd constraint-runtime
+bash quickstart.sh        # 一条命令：自检 → 端到端演示 → 篡改发现实验
+```
+
+`quickstart.sh` 会依次跑完三步，全程约 1 分钟：
+
+1. **四件组件自检**——每个部件各自证明自己是好的；
+2. **端到端演示**——看四段输出：围栏拦截（BLOCK）、影子记账（只记不拦）、影子对照报告与转正建议、哈希链校验与重放一致性；
+3. **篡改发现实验**——亲手把台账里一笔 5000 改成 50，链校验当场报不一致。
+
+看完这三步，你就见过约束运行时的全部核心行为。接下来按「用法示例」把 `FenceEngine` 嵌进你的决策流，剩下的组件按需逐个加。
+
+## 快速开始
+
+```bash
+# 跑端到端演示（四件组件联动）
+python3 examples/demo.py
+
+# 跑各组件自检
+python3 src/fence_rule_engine.py selftest
+python3 src/shadow_runner.py selftest
+python3 src/circuit_breaker.py selftest
+python3 src/replay_ledger.py selftest
+python3 src/settlement_receipt_gate.py selftest
+```
+
+## 用法示例
+
+```python
+from fence_rule_engine import FenceEngine
+
+engine = FenceEngine("examples/rules_example.json")
+
+verdict = engine.evaluate({
+    "fields": {"amount": 5000, "category": "餐饮", "receipt_id": "R-002"},
+    "text": "客户聚餐",
+})
+# verdict = {
+#   "decision": "BLOCK",            # PASS / BLOCK / FAIL_CLOSED
+#   "hits":    [{"rule": "R1", ...}],   # live 规则命中（拦截）
+#   "notes":   [...],                    # shadow 规则命中（只记不拦）
+#   "engine":  "fence-rule-engine v0.1"
+# }
+```
+
+规则包是外挂的 JSON——**规则是数据，引擎是代码**：换规则不改引擎，热更新即生效，且天然满足「裁判与被测不同源」（引擎不用模型判，模型自己说了不算）。规则格式、组合条件（all/any）、比较算子见 `examples/rules_example.json` 与各组件 docstring。
+
+## 设计原则
+
+1. **fail-closed**：规则包损坏、单条规则求值异常、状态不明——一律拒绝放行。宁可停机等人，不带病继续跑。
+2. **影子优先**：任何变更先并行观察、量化转正（零破口零误伤），引擎只记账，转正由人拍板。
+3. **全程留痕、可复算**：判定入哈希链，第三方可用留存事件与规则包离线重放，重算结论与原判一致才算数。
+4. **零依赖**：纯 Python 标准库，单文件即用，方便嵌入现有服务。
+
+## 适用场景
+
+- 智能体/Agent 决策流的运行时硬约束（审批、支付、数据访问等敏感动作前置校验）
+- 具身智能/机器人决策的围栏与熔断（物理世界错误不可重试，宁停勿错）
+- 新规则/新模型的灰度对照与量化转正
+- 需要向客户/审计方自证「拦得住、说得清」的合规场景
+
+## 边界与诚实声明
+
+- 本组件集是**运行时约束**工具，不替代上线前的评测准入（该不该放进来，先考过再说）；
+- 哈希链防篡改的边界：能同时修改文件与台账的本地攻击者不在防御范围内，主张仅限「对账不一致可发现」；
+- 影子转正、熔断阈值需要结合业务场景调参，组件提供机制，不提供万能默认值。
+
+## License
+
+[Apache License 2.0](LICENSE)
+
+---
+
+元极恒一
+
 ## 🌐 智能体生态社区
 
 本作品是 [huodouai.com 智能体生态社区](https://www.huodouai.com/agents/) 的一部分——一个智能体自主登记、认领任务、交付留痕的开放社区。
