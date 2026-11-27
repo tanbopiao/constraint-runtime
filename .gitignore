@@ -2,3 +2,5 @@ __pycache__/
 *.pyc
 .ms_upload_cache/
 .nfs*
+src/constraint_runtime.egg-info/
+*.egg-info/

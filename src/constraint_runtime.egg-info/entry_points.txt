@@ -1,2 +1,0 @@
-[console_scripts]
-constraint-runtime-mcp = mcp_server:main
