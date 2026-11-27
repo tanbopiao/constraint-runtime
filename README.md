@@ -1,3 +1,5 @@
+<!-- mcp-name: io.github.tanbopiao/constraint-runtime -->
+
 # constraint-runtime · 智能体约束运行时组件集
 
 > 给通用智能体/具身智能装上笼头的五个小部件：**围栏规则引擎、影子运行器、熔断停机器、留痕重放器、结算凭证闸**。

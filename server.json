@@ -1,0 +1,21 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.tanbopiao/constraint-runtime",
+  "title": "Constraint Runtime",
+  "description": "Agent constraint runtime with rule fences, shadow runs, circuit breaking and audit replay. Ships an MCP server shell over stdio.",
+  "repository": {
+    "url": "https://github.com/tanbopiao/constraint-runtime",
+    "source": "github"
+  },
+  "version": "0.1.0",
+  "packages": [
+    {
+      "registryType": "pypi",
+      "identifier": "constraint-runtime",
+      "version": "0.1.0",
+      "transport": {
+        "type": "stdio"
+      }
+    }
+  ]
+}
