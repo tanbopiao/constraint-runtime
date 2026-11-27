@@ -93,6 +93,27 @@ verdict = engine.evaluate({
 
 规则包是外挂的 JSON——**规则是数据，引擎是代码**：换规则不改引擎，热更新即生效，且天然满足「裁判与被测不同源」（引擎不用模型判，模型自己说了不算）。规则格式、组合条件（all/any）、比较算子见 `examples/rules_example.json` 与各组件 docstring。
 
+## 作为 MCP 服务使用
+
+本组件集附带 MCP 服务壳（`src/mcp_server.py`），把围栏判定、影子对照、熔断控制、台账校验暴露为 MCP 工具，可在 Claude、Cursor 等客户端中直接调用：
+
+```json
+{
+  "mcpServers": {
+    "constraint-runtime": {
+      "command": "python3",
+      "args": ["-m", "mcp_server"],
+      "env": {
+        "CONSTRAINT_RULES_PATH": "/path/to/rules.json",
+        "CONSTRAINT_LEDGER_PATH": "/path/to/ledger.jsonl"
+      }
+    }
+  }
+}
+```
+
+七个工具：`fence_evaluate`（围栏判定）、`fence_reload`（规则热更）、`shadow_feed`（影子投喂）、`shadow_report`（影子报告与转正建议）、`breaker`（熔断控制）、`ledger_append`（台账入链）、`ledger_verify`（校验重放）。组件本体仍是零依赖纯标准库，只有服务壳依赖 `mcp` 包（`pip install constraint-runtime` 或从源码运行均可）。
+
 ## 设计原则
 
 1. **fail-closed**：规则包损坏、单条规则求值异常、状态不明——一律拒绝放行。宁可停机等人，不带病继续跑。

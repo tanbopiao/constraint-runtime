@@ -1,0 +1,34 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "constraint-runtime"
+version = "0.1.0"
+description = "智能体约束运行时组件集：围栏规则引擎、影子运行器、熔断停机器、留痕重放器、结算凭证闸，附 MCP 服务壳"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "Apache-2.0" }
+authors = [{ name = "tanbopiao" }]
+keywords = ["mcp", "agent", "guardrail", "circuit-breaker", "audit-ledger"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: Apache Software License",
+    "Topic :: Software Development :: Libraries",
+]
+# 依赖上限教训：mcp 2.x 已改名，不设上限会装到坏版本
+dependencies = ["mcp>=1.0,<2"]
+
+[project.scripts]
+constraint-runtime-mcp = "mcp_server:main"
+
+[tool.setuptools]
+package-dir = { "" = "src" }
+py-modules = [
+    "mcp_server",
+    "fence_rule_engine",
+    "shadow_runner",
+    "circuit_breaker",
+    "replay_ledger",
+    "settlement_receipt_gate",
+]
