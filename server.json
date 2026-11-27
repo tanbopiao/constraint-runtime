@@ -2,7 +2,7 @@
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "io.github.tanbopiao/constraint-runtime",
   "title": "Constraint Runtime",
-  "description": "Agent constraint runtime with rule fences, shadow runs, circuit breaking and audit replay. Ships an MCP server shell over stdio.",
+  "description": "Agent constraint runtime: rule fences, shadow runs, circuit breaking, audit replay. MCP over stdio.",
   "repository": {
     "url": "https://github.com/tanbopiao/constraint-runtime",
     "source": "github"
