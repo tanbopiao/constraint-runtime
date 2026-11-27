@@ -60,6 +60,14 @@ bash quickstart.sh        # 一条命令：自检 → 端到端演示 → 篡改
 
 看完这三步，你就见过约束运行时的全部核心行为。接下来按「用法示例」把 `FenceEngine` 嵌进你的决策流，剩下的组件按需逐个加。
 
+## 安装（PyPI）
+
+```bash
+pip install constraint-runtime
+```
+
+安装后即得 MCP 服务壳命令行入口 `constraint-runtime-mcp`（STDIO 传输）。已收录于官方 MCP Registry：`io.github.tanbopiao/constraint-runtime`。引擎本体零依赖，也可直接从源码运行（见下文）。
+
 ## 快速开始
 
 ```bash
