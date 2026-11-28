@@ -2,9 +2,10 @@
 # -*- coding: utf-8 -*-
 """constraint-runtime MCP 服务壳
 
-把八个约束组件（围栏规则引擎/影子运行器/熔断停机器/留痕重放器/结算凭证闸/
-身份闸/输出闸/评测算子）以 MCP 工具形式对外暴露，供任意 MCP 客户端
-（Claude、Cursor 等）调用。组件本体零依赖纯标准库；本壳仅依赖 mcp 包。
+把十个约束组件（围栏规则引擎/影子运行器/熔断停机器/留痕重放器/结算凭证闸/
+身份闸/输出闸/评测算子/协同闸/注册编排闸）以 MCP 工具形式对外暴露，
+供任意 MCP 客户端（Claude、Cursor 等）调用。
+组件本体零依赖纯标准库；本壳仅依赖 mcp 包。
 
 启动配置（stdio）：
     {
@@ -20,7 +21,7 @@
       }
     }
 
-工具一览（十七个，按治理链分四组）：
+工具一览（三十一个，按治理链分组）：
     fence_evaluate        围栏判定：事件过规则包，live 拦截 / shadow 只记
     fence_reload          规则热更：重新加载规则包（规则是数据）
     shadow_feed           影子投喂：基线判定 vs 影子判定，破口/误伤分账
@@ -38,6 +39,20 @@
     eval_record           评测记录锚定：输入/输出/配置三元组入链
     eval_verify           重放即复算：三元组任一漂移即拆穿
     eval_claim            声称即对账：无证据完成声称判假完成
+    coord_write           协同写入：追加式条目 + 写侧预检只打标记不阻塞
+    coord_classify        关系判定登记：CONFLICT/COMPLEMENT/IRRELEVANT 规则校验
+    coord_link_enrich     ENRICH 建链：补充关系方向链接，与冲突互斥
+    coord_arbitrate       仲裁执行：自动/挂起/联邦共识三策略，留痕可回放
+    coord_recall          召回侧视图：挂起全返附提示，superseded 保留不召回
+    coord_reopen          重开走追加：凭更高优先级证据恢复，不改写历史
+    coord_combo_check     组合行为风控：白名单放行，白名单外进人工关口
+    coord_human_verdict   人工关口裁决：否决终局缓存同因，批准入白名单
+    registry_register     组件注册：查重先行，版本只进不退
+    registry_latest       查组件最高版本
+    registry_revoke       组件下线：标记不删除，可恢复
+    registry_restore      恢复下线组件：走追加记录
+    registry_catalog      目录树视图：从真值记录重算
+    registry_verify       双落位对账：链完整性 + 账实一致
 """
 import json
 import os
@@ -48,10 +63,12 @@ from mcp.server.fastmcp import FastMCP
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 from circuit_breaker import CircuitBreaker            # noqa: E402
+from coord_gate import CoordGate                      # noqa: E402
 from eval_replay import EvalReplay                    # noqa: E402
 from fence_rule_engine import FenceEngine             # noqa: E402
 from identity_gate import IdentityGate                # noqa: E402
 from output_gate import OutputGate                    # noqa: E402
+from registry_gate import RegistryGate                # noqa: E402
 from replay_ledger import ReplayLedger                # noqa: E402
 from shadow_runner import ShadowRunner                # noqa: E402
 
@@ -67,6 +84,8 @@ _ledger = ReplayLedger(LEDGER_PATH)
 _identity = IdentityGate()
 _output = OutputGate()
 _eval = EvalReplay()
+_coord = CoordGate()
+_registry = RegistryGate()
 
 
 def _need_engine():
@@ -231,6 +250,121 @@ def eval_claim(case_id: str, evidence_hash: str) -> str:
     """声称即对账：无记录、无证据、证据不符，一律判假完成（fake_completion）。"""
     ok, status = _eval.claim_done(case_id, evidence_hash)
     return json.dumps({"ok": ok, "status": status}, ensure_ascii=False)
+
+
+# ---------- 协同闸（多智能体协同，T-02 细则落地） ----------
+
+@mcp.tool()
+def coord_write(group_id: str, subject: str, predicate: str, value: str,
+                confidence: float, tier: str, source_agent: str,
+                valid_start: str = None, valid_end: str = None) -> str:
+    """协同写入：条目一律追加；同组同实体-谓词的疑似互斥只打 hint
+    标记，不阻塞写入。tier 取值：static_truth/human_confirmed/
+    trusted_tool/external_third_party/agent_introspection/low_confidence_guess。"""
+    mid, receipt = _coord.write(group_id, subject, predicate, value,
+                                confidence, tier, source_agent,
+                                valid_start, valid_end)
+    return json.dumps({"mid": mid, **receipt}, ensure_ascii=False)
+
+
+@mcp.tool()
+def coord_classify(mid_a: str, mid_b: str, verdict: str, judge_id: str) -> str:
+    """关系判定登记：CONFLICT/COMPLEMENT/IRRELEVANT 三分类由调用方给出，
+    本闸做规则校验——跨组比对拒绝，冲突要求互斥，时序递进不算冲突。"""
+    ok, status = _coord.classify(mid_a, mid_b, verdict, judge_id)
+    return json.dumps({"ok": ok, "status": status}, ensure_ascii=False)
+
+
+@mcp.tool()
+def coord_link_enrich(new_mid: str, old_mid: str) -> str:
+    """ENRICH 建链：补充关系建方向链接，双方保留；与冲突互斥，拿不准不建链。"""
+    ok, status = _coord.link_enrich(new_mid, old_mid)
+    return json.dumps({"ok": ok, "status": status}, ensure_ascii=False)
+
+
+@mcp.tool()
+def coord_arbitrate(mid_a: str, mid_b: str, strategy: str, arbiter_id: str,
+                    votes: dict = None) -> str:
+    """仲裁执行：auto（置信差达阈，低置信改 superseded 保留不删）/
+    pending（待决挂起）/federal（加权投票，权重记录在案）。
+    仲裁者不得是被裁决条目的产出方。"""
+    receipt, status = _coord.arbitrate(mid_a, mid_b, strategy, arbiter_id, votes)
+    return json.dumps({"receipt": receipt, "status": status}, ensure_ascii=False)
+
+
+@mcp.tool()
+def coord_recall(group_id: str, subject: str = None, predicate: str = None) -> str:
+    """召回侧视图：active 全返；挂起条目全返并附冲突提示；superseded
+    保留在档但不召回；ENRICH 链附关联提示。"""
+    return json.dumps(_coord.recall(group_id, subject, predicate),
+                      ensure_ascii=False)
+
+
+@mcp.tool()
+def coord_reopen(mid: str, evidence_hash: str, by: str) -> str:
+    """重开走追加：superseded/pending 凭更高优先级证据恢复，不改写历史。"""
+    ok, status = _coord.reopen(mid, evidence_hash, by)
+    return json.dumps({"ok": ok, "status": status}, ensure_ascii=False)
+
+
+@mcp.tool()
+def coord_combo_check(action: str, agents: list,
+                      whitelist_version: str = "v1") -> str:
+    """组合行为风控：白名单内放行；白名单外进人工关口；同因否决缓存不重复打扰。"""
+    ok, receipt = _coord.combo_check(action, agents, whitelist_version)
+    return json.dumps({"ok": ok, **receipt}, ensure_ascii=False)
+
+
+@mcp.tool()
+def coord_human_verdict(action: str, agents: list, approve: bool,
+                        whitelist_version: str = "v1") -> str:
+    """人工关口裁决：否决为终局并缓存同因；批准则写入版本化白名单。"""
+    ok, status = _coord.human_verdict(action, agents, approve, whitelist_version)
+    return json.dumps({"ok": ok, "status": status}, ensure_ascii=False)
+
+
+# ---------- 注册编排闸（组件注册与编排） ----------
+
+@mcp.tool()
+def registry_register(name: str, version: str, content_hash: str,
+                      registered_by: str = "system") -> str:
+    """组件注册：查重先行（同名同哈希拒绝）；版本只进不退（降级拒绝）。"""
+    ok, status = _registry.register(name, version, content_hash, registered_by)
+    return json.dumps({"ok": ok, "status": status}, ensure_ascii=False)
+
+
+@mcp.tool()
+def registry_latest(name: str) -> str:
+    """查组件已登记的最高版本；未登记或已下线返回空。"""
+    top = _registry.latest(name)
+    return json.dumps(top or {}, ensure_ascii=False)
+
+
+@mcp.tool()
+def registry_revoke(name: str, by: str = "system") -> str:
+    """组件下线：打视图标记，记录保留在档，可恢复。"""
+    ok, status = _registry.revoke(name, by)
+    return json.dumps({"ok": ok, "status": status}, ensure_ascii=False)
+
+
+@mcp.tool()
+def registry_restore(name: str, by: str = "system") -> str:
+    """恢复下线组件：走追加记录，不改写历史。"""
+    ok, status = _registry.restore(name, by)
+    return json.dumps({"ok": ok, "status": status}, ensure_ascii=False)
+
+
+@mcp.tool()
+def registry_catalog() -> str:
+    """目录树视图：从真值记录重算，只列未下线组件及其最高版本。"""
+    return json.dumps(_registry.catalog(), ensure_ascii=False)
+
+
+@mcp.tool()
+def registry_verify() -> str:
+    """双落位对账：哈希链完整性 + 目录视图与真值记录一致。"""
+    ok, info = _registry.verify()
+    return json.dumps({"ok": ok, **info}, ensure_ascii=False)
 
 
 def main():

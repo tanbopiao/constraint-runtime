@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "constraint-runtime"
-version = "0.2.0"
-description = "智能体约束运行时组件集：围栏规则引擎、影子运行器、熔断停机器、留痕重放器、结算凭证闸、身份闸、输出闸、评测算子，附 MCP 服务壳"
+version = "0.3.0"
+description = "智能体约束运行时组件集：围栏规则引擎、影子运行器、熔断停机器、留痕重放器、结算凭证闸、身份闸、输出闸、评测算子、协同闸、注册编排闸，附 MCP 服务壳"
 readme = "README.md"
 requires-python = ">=3.10"
 license = { text = "Apache-2.0" }
@@ -34,4 +34,6 @@ py-modules = [
     "identity_gate",
     "output_gate",
     "eval_replay",
+    "coord_gate",
+    "registry_gate",
 ]

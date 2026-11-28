@@ -21,7 +21,7 @@ jobs:
       - name: Component selftests
         run: |
           set -e
-          for m in fence_rule_engine shadow_runner circuit_breaker replay_ledger settlement_receipt_gate identity_gate output_gate eval_replay; do
+          for m in fence_rule_engine shadow_runner circuit_breaker replay_ledger settlement_receipt_gate identity_gate output_gate eval_replay coord_gate registry_gate; do
             echo "=== $m ==="
             python3 "src/$m.py" selftest
           done
