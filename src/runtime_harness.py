@@ -236,10 +236,15 @@ class RuntimeHarness:
     # ---------- 主管线 ----------
 
     def process(self, agent_id, action, event, content=None, task_id=None,
-                event_id=None):
+                event_id=None, nonce=None, proof=None):
         """跑一遍默认管线。返回统一判定：
         {"decision": "ALLOW"/"DENY", "stage", "reason", "fence", "channel",
          "trace": [...], "harness": HARNESS_VERSION}
+
+        身份段（0.4.1 评审修正）：默认只查权限清单（授权段语义，trace 标
+        handshake=False）；传入 nonce+proof 时先做挑战-应答握手验真再查权限
+        （handshake=True）。凭据验证是可选项——不传即只认清单，调用方须
+        自行保证 agent_id 可信或在管线外完成握手。
         """
         trace = []
         verdict = {"decision": "DENY", "stage": None, "reason": None,
@@ -263,10 +268,17 @@ class RuntimeHarness:
             return verdict
 
         try:
-            # 1. 身份：权限即清单
+            # 1. 身份：可选握手验真 ＋ 权限即清单
             if self.stages["identity"]:
+                if nonce is not None or proof is not None:
+                    ok_h, why_h = self.identity.handshake(agent_id, nonce, proof)
+                    trace.append({"stage": "identity", "ok": ok_h,
+                                  "status": why_h, "handshake": True})
+                    if not ok_h:
+                        return finish("identity", why_h)
                 ok, status = self.identity.authorize(agent_id, action)
-                trace.append({"stage": "identity", "ok": ok, "status": status})
+                trace.append({"stage": "identity", "ok": ok, "status": status,
+                              "handshake": False})
                 if not ok:
                     return finish("identity", status)
 
@@ -472,6 +484,28 @@ def selftest():
         check("未知场景拒绝", False)
     except ValueError:
         check("未知场景拒绝", True)
+
+    # 13. 冒充攻击回归（0.4.1 评审修正）：无握手＝授权段语义，trace 标记；
+    #     传 nonce/proof 时错证明拒绝、对证明放行
+    h6 = RuntimeHarness.from_template("expense")
+    h6.register_agent("agent-1", "secret-1", ["submit"])
+    v = h6.process("agent-1", "submit",
+                   {"fields": {"amount": 100, "category": "餐饮"}})
+    id_trace = [t for t in v["trace"] if t["stage"] == "identity"][0]
+    check("无握手＝授权段语义（trace 标记）",
+          v["decision"] == "ALLOW" and id_trace["handshake"] is False)
+    ch = h6.identity.challenge("agent-1")
+    v = h6.process("agent-1", "submit", {"fields": {"amount": 100, "category": "餐饮"}},
+                   nonce=ch["nonce"], proof="0" * 64)
+    check("管线内错证明拒绝", v["decision"] == "DENY"
+          and v["stage"] == "identity" and v["reason"] == "proof_mismatch")
+    ch = h6.identity.challenge("agent-1")
+    v = h6.process("agent-1", "submit", {"fields": {"amount": 100, "category": "餐饮"}},
+                   nonce=ch["nonce"],
+                   proof=IdentityGate.proof_of("secret-1", ch["nonce"]))
+    id_trace = [t for t in v["trace"] if t["stage"] == "identity"][0]
+    check("管线内握手验真放行", v["decision"] == "ALLOW"
+          and id_trace["handshake"] is True)
 
     # 清理临时文件
     for p in (bad_path, cfg_path):

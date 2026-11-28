@@ -49,6 +49,7 @@ CLI 自检：
 """
 
 import hashlib
+import hmac
 import json
 import os
 import secrets
@@ -147,7 +148,13 @@ class IdentityGate:
         return {"agent_id": agent_id, "nonce": nonce}
 
     def handshake(self, agent_id, nonce, proof):
-        """验真：身份有效 + nonce 未用过 + 证明匹配，三者缺一即拒绝。"""
+        """验真：身份有效 + nonce 未用过 + 证明匹配，三者缺一即拒绝。
+
+        0.4.1 评审修正：证明用常数时间比较（hmac.compare_digest），
+        消除理论时序侧信道。nonce 在验证明前消费——错误证明同样作废
+        nonce，防在线爆破；代价是知道 nonce 的中间人可作废合法方一次
+        握手（fail-closed 方向，不泄露任何凭据信息）。
+        """
         agent = self.agents.get(agent_id)
         if agent is None:
             return False, "unknown_agent"
@@ -158,7 +165,7 @@ class IdentityGate:
         self._used_nonce.discard(nonce)         # nonce 单次有效
         expect = hashlib.sha256(
             (agent["fp"] + nonce).encode("utf-8")).hexdigest()
-        if proof != expect:
+        if not isinstance(proof, str) or not hmac.compare_digest(proof, expect):
             self._append("handshake_fail", {"agent": agent_id})
             return False, "proof_mismatch"
         self._append("handshake_ok", {"agent": agent_id})

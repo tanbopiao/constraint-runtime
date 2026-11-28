@@ -13,6 +13,8 @@
 | 2026-11-28 | 编排层：模板说明字段（下划线前缀）漏进熔断参数 | src/runtime_harness.py selftest | selftest 全量重跑（17/17） |
 | 2026-11-28 | 编排层：配置文件相对路径按进程 CWD 误解析 | deliver/ 三模板冒烟 | 三模板冒烟全通 |
 | 2026-11-22 | 台账篡改：改任一条目后链校验必报不一致 | examples/tamper_demo.py | 篡改发现实验（quickstart 第 3 步） |
+| 2026-11-28 | 编排层：身份段只查权限清单不验凭据，冒充 agent_id 可过（补握手验真） | src/runtime_harness.py selftest 第 13 组 | 冒充攻击回归：无握手标记／错证明拒绝／对证明放行 三连 |
+| 2026-11-28 | 时序侧信道：握手证明与结算凭证用非常数时间比较（改 hmac.compare_digest） | src/identity_gate.py、src/settlement_receipt_gate.py selftest | 常数时间比较加固（含非字符串前置检查） |
 
 ## 约定
 

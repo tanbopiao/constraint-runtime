@@ -46,6 +46,7 @@ CLI 自检：
 """
 
 import hashlib
+import hmac
 import json
 import os
 import secrets
@@ -132,8 +133,9 @@ class SettlementGate:
             return False, "unknown_task"
         if task["state"] != "processing":
             return False, "not_processing"
-        if token != task["token"] or token is None:
-            return False, "stale_receipt"   # 过期/伪造凭证：拒绝，状态不动
+        if token is None or not isinstance(token, str) or \
+                not hmac.compare_digest(token, task["token"] or ""):
+            return False, "stale_receipt"   # 过期/伪造凭证：拒绝，状态不动（0.4.1 改常数时间比较）
         task["state"] = "settled"           # 核验通过后同一操作内变更
         task["token"] = None
         self._append("settle", {"task": task_id, "attempt": task["attempt"],

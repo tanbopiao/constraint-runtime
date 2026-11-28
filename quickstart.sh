@@ -23,4 +23,4 @@ python3 examples/tamper_demo.py
 elapsed=$(( $(date +%s) - start ))
 echo ""
 echo "════ 全部完成，用时 ${elapsed} 秒 ════"
-echo "下一步：把 src/ 下任一单文件拷进你的项目即可用（零依赖，Python 3.8+）。"
+echo "下一步：把 src/ 下任一单文件拷进你的项目即可用（零依赖，Python 3.10+）。"
