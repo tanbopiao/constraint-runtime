@@ -1,0 +1,13 @@
+{
+  "package": "具身设备企业规则包",
+  "version": "v1.0",
+  "fail_closed": true,
+  "rules": [
+    {"id": "B1", "title": "高速动作拦截", "status": "live",
+     "match": {"field": "fields.speed", "op": ">", "value": 1.0},
+     "message": "速度超过 1.0 m/s，物理世界宁停勿错"},
+    {"id": "B2", "title": "人群接近观察", "status": "shadow",
+     "match": {"field": "fields.nearby_humans", "op": ">", "value": 0},
+     "message": "附近有人，影子观察"}
+  ]
+}

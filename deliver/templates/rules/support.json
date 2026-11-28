@@ -1,0 +1,16 @@
+{
+  "package": "客服闸企业规则包",
+  "version": "v1.0",
+  "fail_closed": true,
+  "rules": [
+    {"id": "S1", "title": "越权承诺拦截", "status": "live",
+     "match": {"any": [
+       {"field": "text", "op": "contains", "value": "保证退款"},
+       {"field": "text", "op": "contains", "value": "全额赔付"}
+     ]},
+     "message": "出现越权承诺，拦截并转人工"},
+    {"id": "S2", "title": "负面情绪观察", "status": "shadow",
+     "match": {"field": "text", "op": "contains", "value": "投诉"},
+     "message": "出现投诉字样，影子观察"}
+  ]
+}

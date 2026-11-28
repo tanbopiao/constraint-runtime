@@ -1,0 +1,33 @@
+{
+  "package": "报销闸企业规则包",
+  "version": "v1.0",
+  "fail_closed": true,
+  "_说明": "规则是数据，引擎是代码。改本文件后调用 fence_reload 热更即生效，不用改代码。live=拦截，shadow=只记不拦（转正由人拍板）。",
+  "rules": [
+    {
+      "id": "E1",
+      "title": "餐饮单笔限额",
+      "status": "live",
+      "match": {"all": [
+        {"field": "fields.amount", "op": ">", "value": 3000},
+        {"field": "fields.category", "op": "==", "value": "餐饮"}
+      ]},
+      "message": "餐饮单笔超过 3000，须分级审批"
+    },
+    {
+      "id": "E2",
+      "title": "施压话术观察",
+      "status": "shadow",
+      "match": {"field": "text", "op": "contains", "value": "加急"},
+      "message": "出现施压话术，先记账观察"
+    },
+    {
+      "id": "E3",
+      "title": "单日累计限额（示例）",
+      "status": "shadow",
+      "match": {"field": "fields.amount", "op": ">", "value": 10000},
+      "message": "单笔超 10000，建议先影子观察一段再转 live"
+    }
+  ],
+  "_字段约定": "事件统一走 fields.* 与 text 两个入口：fields 放结构化字段（金额/类别/单号），text 放自由文本。字段缺失视为不命中，不是错误。"
+}

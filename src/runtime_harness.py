@@ -147,13 +147,15 @@ SCENARIO_TEMPLATES = {
 
 
 def _merge_stages(overrides):
-    """浅合并：模板 stages 与用户 overrides 逐键覆盖。"""
+    """浅合并：模板 stages 与用户 overrides 逐键覆盖。
+    下划线前缀键（_说明 等）为文档字段，运行时忽略。"""
     stages = json.loads(json.dumps(_DEFAULT_STAGES, ensure_ascii=False))
     for key, val in (overrides or {}).items():
-        if isinstance(val, dict) and isinstance(stages.get(key), dict):
-            stages[key].update(val)
-        else:
-            stages[key] = val
+        if key.startswith("_"):
+            continue
+        if isinstance(val, dict):
+            val = {k: v for k, v in val.items() if not k.startswith("_")}
+        stages[key] = val
     return stages
 
 
@@ -170,6 +172,8 @@ class RuntimeHarness:
 
         # 散件装配（台账路径可由配置指定，便于落盘对账）
         ledger_path = config.get("ledger_path")
+        if ledger_path:
+            os.makedirs(os.path.dirname(ledger_path) or ".", exist_ok=True)
         self.identity = IdentityGate()
         self.breaker = CircuitBreaker(**(self.stages["breaker"] or {}))
         self.settlement = SettlementGate() if self.stages["settlement"] else None
@@ -208,9 +212,16 @@ class RuntimeHarness:
 
     @classmethod
     def from_config_file(cls, path):
-        """从 JSON 配置文件装配（配置即数据）。"""
+        """从 JSON 配置文件装配（配置即数据）。
+        相对路径（rules_path/ledger_path）按配置文件所在目录解析。"""
+        path = os.path.abspath(path)
+        base = os.path.dirname(path)
         with open(path, "r", encoding="utf-8") as f:
             config = json.load(f)
+        for key in ("rules_path", "ledger_path"):
+            val = config.get(key)
+            if val and not os.path.isabs(val):
+                config[key] = os.path.join(base, val)
         config.setdefault("rules_path", path if "rules" not in config else None)
         # 配置文件里内联 rules 时，rules_path 指向配置文件本身不成立，改走临时文件
         if config.get("rules") and config.get("rules_path") == path:

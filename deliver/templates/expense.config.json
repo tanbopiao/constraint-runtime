@@ -1,0 +1,34 @@
+{
+  "_说明": "报销闸企业配置模板。复制本文件后按注释逐项修改；带 _ 前缀的键为说明字段，运行时忽略。",
+  "name": "报销闸（企业租户）",
+  "scenario": "expense",
+  "_规则包": "二选一：rules_path 指向外部规则包文件（推荐，规则是数据可热更）；或内联 rules 对象（模板内置规则作底）。",
+  "rules_path": "./rules/expense.json",
+  "_台账": "ledger_path 指向哈希链台账落盘文件；不填则仅内存留痕（重启即失，生产环境务必落盘）。",
+  "ledger_path": "./data/expense_ledger.jsonl",
+  "_管线开关": "七段管线逐段开关与参数。identity/breaker/fence/shadow/output/ledger 默认开；settlement 默认关，需要防假完成时打开。",
+  "stages": {
+    "identity": true,
+    "breaker": {
+      "max_consecutive_failures": 3,
+      "window_size": 10,
+      "max_failure_rate": 0.5,
+      "cooldown_seconds": 60,
+      "_说明": "连续失败 3 次或 10 次窗口内失败率超 50% 即熔断；冷却 60 秒后放行探针，探针成功才恢复。按业务容忍度调整。"
+    },
+    "settlement": false,
+    "fence": true,
+    "shadow": {
+      "window_size": 100,
+      "promote_windows": 3,
+      "_说明": "每 100 笔封存一个影子窗口；连续 3 个完整窗口零破口零误伤才给转正建议。转正由人拍板，引擎只记账。"
+    },
+    "output": {
+      "daily_quota": 1000,
+      "gray_ratio": 0.0,
+      "_说明": "每身份每日最多签发 1000 个输出信符；gray_ratio 为灰度分流比例（0=全部走稳定通道）。"
+    },
+    "ledger": true
+  },
+  "_身份登记": "身份不在配置文件里登记——口令指纹应在带外完成注册（调用 register_agent 或 harness_register_agent 工具），口令原文不落盘不入配置。"
+}

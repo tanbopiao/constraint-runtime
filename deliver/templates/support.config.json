@@ -1,0 +1,18 @@
+{
+  "_说明": "客服闸企业配置模板。与报销闸同构，仅规则包与段参数不同。",
+  "name": "客服闸（企业租户）",
+  "scenario": "support",
+  "rules_path": "./rules/support.json",
+  "ledger_path": "./data/support_ledger.jsonl",
+  "stages": {
+    "identity": true,
+    "breaker": {"max_consecutive_failures": 5, "window_size": 20,
+                "max_failure_rate": 0.4, "cooldown_seconds": 30},
+    "settlement": false,
+    "fence": true,
+    "shadow": {"window_size": 200, "promote_windows": 3},
+    "output": {"daily_quota": 5000, "gray_ratio": 0.1,
+               "_说明": "客服输出量大，配额放宽；10% 灰度分流用于新话术观察。"},
+    "ledger": true
+  }
+}

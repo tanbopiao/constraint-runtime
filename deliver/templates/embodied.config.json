@@ -1,0 +1,19 @@
+{
+  "_说明": "具身设备闸企业配置模板。物理世界错误不可重试，宁停勿错：熔断阈值最严。",
+  "name": "具身设备闸（企业租户）",
+  "scenario": "embodied",
+  "rules_path": "./rules/embodied.json",
+  "ledger_path": "./data/embodied_ledger.jsonl",
+  "stages": {
+    "identity": true,
+    "breaker": {"max_consecutive_failures": 1, "window_size": 5,
+                "max_failure_rate": 0.2, "cooldown_seconds": 120,
+                "_说明": "一次失败即熔断，冷却 120 秒——物理世界宁可停机等人。"},
+    "settlement": true,
+    "_结算": "具身任务建议开启结算段：认领即签发凭证、回写即核验，防执行器假完成。",
+    "fence": true,
+    "shadow": {"window_size": 50, "promote_windows": 5},
+    "output": {"daily_quota": 100, "gray_ratio": 0.0},
+    "ledger": true
+  }
+}
