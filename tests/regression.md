@@ -15,6 +15,8 @@
 | 2026-11-22 | 台账篡改：改任一条目后链校验必报不一致 | examples/tamper_demo.py | 篡改发现实验（quickstart 第 3 步） |
 | 2026-11-28 | 编排层：身份段只查权限清单不验凭据，冒充 agent_id 可过（补握手验真） | src/runtime_harness.py selftest 第 13 组 | 冒充攻击回归：无握手标记／错证明拒绝／对证明放行 三连 |
 | 2026-11-28 | 时序侧信道：握手证明与结算凭证用非常数时间比较（改 hmac.compare_digest） | src/identity_gate.py、src/settlement_receipt_gate.py selftest | 常数时间比较加固（含非字符串前置检查） |
+| 2026-11-28 | 每日配额全内存态，重启清零（从台账重建当日计数，输出段配 chain_path 即持久） | src/output_gate.py selftest 第 11 组、src/runtime_harness.py selftest 第 14 组 | 重启后配额延续／重启后超配额仍拒绝 |
+| 2026-11-28 | regex 算子事件期反复编译且模式不校验（改装配期预编译，非法模式装配即拒） | src/fence_rule_engine.py selftest | 正则装配预编译／命中不命中判定／非法正则装配即拒 |
 
 ## 约定
 

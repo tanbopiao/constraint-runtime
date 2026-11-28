@@ -26,6 +26,9 @@
 2. 影子优先：规则可标 shadow（只记不拦），转正标准量化（连续窗口零破口零误伤），
    引擎只负责记账，转正动作由人拍板。
 3. 全程留痕：每次评估返回完整命中明细，可直接写入留痕重放器。
+4. 正则预编译（0.5.0 评审修正）：regex 算子在规则包装配期预编译并校验，
+   模式非法装配即拒；事件期只查缓存。恶意回溯模式拖垮求值的前提是
+   规则包来源不可信——规则包须来自可信渠道，该前提不在防御范围内。
 
 规则包格式（JSON）：
 {
@@ -64,6 +67,16 @@ from collections import defaultdict
 
 ENGINE_VERSION = "fence-rule-engine v0.1"
 
+_ENGINE_COMPILED = {}  # pattern -> compiled（预编译缓存，0.5.0 评审修正）
+
+
+def _compile_regex(pattern):
+    """预编译并缓存正则：模式非法在装配期即拒，不在事件期反复编译。"""
+    if pattern not in _ENGINE_COMPILED:
+        _ENGINE_COMPILED[pattern] = re.compile(pattern)
+    return _ENGINE_COMPILED[pattern]
+
+
 _OPS = {
     ">": lambda a, b: a > b,
     ">=": lambda a, b: a >= b,
@@ -72,7 +85,7 @@ _OPS = {
     "==": lambda a, b: a == b,
     "!=": lambda a, b: a != b,
     "contains": lambda a, b: b in a,
-    "regex": lambda a, b: re.search(b, a) is not None,
+    "regex": lambda a, b: _compile_regex(b).search(a) is not None,
     "in": lambda a, b: a in b,
     "not_in": lambda a, b: a not in b,
     "exists": lambda a, b: a is not None,
@@ -130,6 +143,27 @@ class FenceEngine:
         self.package_version = pkg.get("version", "?")
         self.fail_closed = pkg.get("fail_closed", True)
         self.rules = pkg["rules"]
+        self._precompile_regex()
+
+    def _precompile_regex(self):
+        """装配期预编译全部 regex 算子（0.5.0 评审修正）：
+        模式非法在装配期即抛异常（管线期 fail-closed），
+        事件期只查缓存，不反复编译。恶意回溯模式拖垮求值的
+        前提是规则包来源不可信——该前提不在防御范围内（见模块诚实边界）。"""
+        def _walk(match):
+            if not isinstance(match, dict):
+                return
+            if "all" in match:
+                for c in match["all"]:
+                    _walk(c)
+            if "any" in match:
+                for c in match["any"]:
+                    _walk(c)
+            if match.get("op") == "regex":
+                _compile_regex(match.get("value", ""))
+
+        for rule in self.rules:
+            _walk(rule.get("match", {}))
 
     def reload(self):
         """规则包热更新（换制度不换引擎）。"""
@@ -234,6 +268,36 @@ def selftest():
         bad.reload()
         v = bad.evaluate({"fields": {"amount": 0}})
         check("修复后热更新 → 恢复正常判定", v["decision"] == "PASS")
+
+        # 正则预编译（0.5.0 评审修正）：合法模式装配期编译，事件期走缓存
+        regex_pkg = {"package": "正则包", "version": "t3", "fail_closed": True,
+                     "rules": [{"id": "R3", "title": "工单号校验", "status": "live",
+                                "match": {"field": "text", "op": "regex",
+                                          "value": "^TK-\\d{4}$"},
+                                "message": "工单号格式不符"}]}
+        p3 = os.path.join(td, "regex.json")
+        with open(p3, "w", encoding="utf-8") as f:
+            json.dump(regex_pkg, f, ensure_ascii=False)
+        eng3 = FenceEngine(p3)
+        check("正则规则装配预编译", "^TK-\\d{4}$" in _ENGINE_COMPILED)
+        v = eng3.evaluate({"text": "TK-1234"})
+        check("正则命中 → BLOCK", v["decision"] == "BLOCK")
+        v = eng3.evaluate({"text": "TK-abc"})
+        check("正则不命中 → PASS", v["decision"] == "PASS")
+
+        # 非法正则模式：装配期即拒，不进事件期
+        bad_regex_pkg = {"package": "坏正则包", "version": "t4",
+                         "fail_closed": True,
+                         "rules": [{"id": "R4", "match": {"field": "text",
+                                    "op": "regex", "value": "(["}}]}
+        p4 = os.path.join(td, "bad_regex.json")
+        with open(p4, "w", encoding="utf-8") as f:
+            json.dump(bad_regex_pkg, f, ensure_ascii=False)
+        try:
+            FenceEngine(p4)
+            check("非法正则装配即拒", False)
+        except re.error:
+            check("非法正则装配即拒", True)
 
     print("SELFTEST %s" % ("PASS" if ok else "FAIL"))
     return 0 if ok else 1

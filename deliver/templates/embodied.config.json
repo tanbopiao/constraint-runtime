@@ -13,7 +13,8 @@
     "_结算": "具身任务建议开启结算段：认领即签发凭证、回写即核验，防执行器假完成。",
     "fence": true,
     "shadow": {"window_size": 50, "promote_windows": 5},
-    "output": {"daily_quota": 100, "gray_ratio": 0.0},
+    "output": {"daily_quota": 100, "gray_ratio": 0.0,
+               "chain_path": "./data/embodied_output_chain.jsonl"},
     "ledger": true
   }
 }

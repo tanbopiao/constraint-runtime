@@ -32,7 +32,9 @@
 
 诚实边界：本件管「输出是否被授权发出」，不管「输出内容是否正确」——
 内容正确性属于评测准入（L6）的职责；不防能同时改写内存与台账文件的
-本地攻击者。
+本地攻击者。配额计数设 chain_path 即随台账落盘，重启从台账重建
+（0.5.0 评审修正）；信符单次有效状态仍为内存态，重启丢失即失效——
+丢的是「不能再发」的能力，方向 fail-closed。
 
 用法：
     from output_gate import OutputGate
@@ -72,6 +74,7 @@ class OutputGate:
         self._day = time.strftime("%Y-%m-%d")
         if chain_path and os.path.exists(chain_path):
             self._load_chain()
+            self._rebuild_quota()
 
     # ---------- 哈希链 ----------
 
@@ -97,6 +100,15 @@ class OutputGate:
     def _load_chain(self):
         with open(self.chain_path, encoding="utf-8") as f:
             self.entries = [json.loads(line) for line in f if line.strip()]
+
+    def _rebuild_quota(self):
+        """从台账重建当日配额计数（0.5.0 评审修正：配额重启不清零）。
+        台账逐笔记录 issue 事件，按当日时间戳过滤重放计数；
+        跨日条目不计入，日切仍由 _roll_day 负责。"""
+        for e in self.entries:
+            if e.get("event") == "issue" and e.get("ts", "")[:10] == self._day:
+                agent = e.get("detail", {}).get("agent")
+                self.issued_today[agent] = self.issued_today.get(agent, 0) + 1
 
     def verify_chain(self):
         prev = "GENESIS"
@@ -228,6 +240,21 @@ def selftest():
     g.entries[0]["detail"]["agent"] = "tampered"
     ok, detail = g.verify_chain()
     check("篡改可发现", (not ok) and detail["broken_at_seq"] == 1)
+
+    # 11 配额持久化（0.5.0 评审修正）：重启后从台账重建当日计数，不清零
+    import tempfile
+    fd, qpath = tempfile.mkstemp(suffix=".jsonl")
+    os.close(fd)
+    os.unlink(qpath)
+    g = OutputGate(chain_path=qpath, daily_quota=3)
+    g.issue("a1", "m0")
+    g.issue("a1", "m1")
+    g2 = OutputGate(chain_path=qpath, daily_quota=3)  # 模拟重启
+    s = g2.issue("a1", "m2")
+    check("重启后配额延续", s is not None)
+    s = g2.issue("a1", "m3")
+    check("重启后超配额仍拒绝", s is None)
+    os.unlink(qpath)
 
     passed = sum(1 for _, c in results if c)
     for name, cond in results:

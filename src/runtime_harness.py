@@ -512,6 +512,26 @@ def selftest():
         if os.path.exists(p):
             os.unlink(p)
 
+    # 14. 配额持久化回归（0.5.0 评审修正）：输出段配 chain_path，
+    #     重启后从台账重建当日配额，不清零
+    fd4, out_chain = tempfile.mkstemp(suffix=".jsonl")
+    os.close(fd4)
+    os.unlink(out_chain)
+    h7 = RuntimeHarness({"stages": {"output": {"daily_quota": 2,
+                                               "gray_ratio": 0.0,
+                                               "chain_path": out_chain}}})
+    h7.register_agent("q-1", "pw", ["go"])
+    h7.process("q-1", "go", {"fields": {}}, content="第一份")
+    h7.process("q-1", "go", {"fields": {}}, content="第二份")
+    h8 = RuntimeHarness({"stages": {"output": {"daily_quota": 2,
+                                               "gray_ratio": 0.0,
+                                               "chain_path": out_chain}}})
+    h8.register_agent("q-1", "pw", ["go"])
+    v = h8.process("q-1", "go", {"fields": {}}, content="第三份")
+    check("重启后配额延续（不清零）", v["decision"] == "DENY"
+          and v["stage"] == "output" and v["reason"] == "daily_quota_exceeded")
+    os.unlink(out_chain)
+
     print("── runtime_harness selftest: %s ──" % ("ALL PASS" if ok else "FAILED"))
     return 0 if ok else 1
 

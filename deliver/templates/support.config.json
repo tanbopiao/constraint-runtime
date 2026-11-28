@@ -12,7 +12,8 @@
     "fence": true,
     "shadow": {"window_size": 200, "promote_windows": 3},
     "output": {"daily_quota": 5000, "gray_ratio": 0.1,
-               "_说明": "客服输出量大，配额放宽；10% 灰度分流用于新话术观察。"},
+               "chain_path": "./data/support_output_chain.jsonl",
+               "_说明": "客服输出量大，配额放宽；10% 灰度分流用于新话术观察。chain_path 使配额计数随台账持久，重启不清零（0.5.0 起）。"},
     "ledger": true
   }
 }

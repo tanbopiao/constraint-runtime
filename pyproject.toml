@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "constraint-runtime"
-version = "0.4.1"
+version = "0.5.0"
 description = "智能体约束运行时：十件治理组件＋标准笼头编排层（配置驱动、场景模板），附 MCP 服务壳"
 readme = "README.md"
 requires-python = ">=3.10"

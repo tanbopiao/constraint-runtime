@@ -26,7 +26,8 @@
     "output": {
       "daily_quota": 1000,
       "gray_ratio": 0.0,
-      "_说明": "每身份每日最多签发 1000 个输出信符；gray_ratio 为灰度分流比例（0=全部走稳定通道）。"
+      "chain_path": "./data/expense_output_chain.jsonl",
+      "_说明": "每身份每日最多签发 1000 个输出信符；gray_ratio 为灰度分流比例（0=全部走稳定通道）。chain_path 指向输出台账落盘文件，配额计数随台账持久，重启不清零（0.5.0 起）。"
     },
     "ledger": true
   },
