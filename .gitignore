@@ -4,3 +4,4 @@ __pycache__/
 .nfs*
 src/constraint_runtime.egg-info/
 *.egg-info/
+dist/
