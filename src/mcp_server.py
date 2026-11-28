@@ -3,8 +3,8 @@
 """constraint-runtime MCP 服务壳
 
 把十个约束组件（围栏规则引擎/影子运行器/熔断停机器/留痕重放器/结算凭证闸/
-身份闸/输出闸/评测算子/协同闸/注册编排闸）以 MCP 工具形式对外暴露，
-供任意 MCP 客户端（Claude、Cursor 等）调用。
+身份闸/输出闸/评测算子/协同闸/注册编排闸）与编排层（标准笼头）以 MCP 工具
+形式对外暴露，供任意 MCP 客户端（Claude、Cursor 等）调用。
 组件本体零依赖纯标准库；本壳仅依赖 mcp 包。
 
 启动配置（stdio）：
@@ -21,7 +21,11 @@
       }
     }
 
-工具一览（三十一个，按治理链分组）：
+工具一览（三十五个，按治理链分组）：
+    harness_process       笼头主管线：身份→熔断→结算→围栏→影子→输出→台账一次跑完
+    harness_register_agent 笼头身份登记：权限即清单
+    harness_status        笼头水位：各段状态与处理量一览
+    harness_templates     场景模板清单：报销闸/客服/具身设备
     fence_evaluate        围栏判定：事件过规则包，live 拦截 / shadow 只记
     fence_reload          规则热更：重新加载规则包（规则是数据）
     shadow_feed           影子投喂：基线判定 vs 影子判定，破口/误伤分账
@@ -70,6 +74,8 @@ from identity_gate import IdentityGate                # noqa: E402
 from output_gate import OutputGate                    # noqa: E402
 from registry_gate import RegistryGate                # noqa: E402
 from replay_ledger import ReplayLedger                # noqa: E402
+from runtime_harness import SCENARIO_TEMPLATES        # noqa: E402
+from runtime_harness import RuntimeHarness            # noqa: E402
 from shadow_runner import ShadowRunner                # noqa: E402
 
 RULES_PATH = os.environ.get("CONSTRAINT_RULES_PATH")
@@ -365,6 +371,60 @@ def registry_verify() -> str:
     """双落位对账：哈希链完整性 + 目录视图与真值记录一致。"""
     ok, info = _registry.verify()
     return json.dumps({"ok": ok, **info}, ensure_ascii=False)
+
+
+# ---------- 编排层（标准笼头：默认管线串起散件） ----------
+
+_harness = None
+
+
+def _get_harness():
+    global _harness
+    if _harness is None:
+        config = {"rules_path": RULES_PATH} if RULES_PATH else {}
+        if LEDGER_PATH:
+            config["ledger_path"] = LEDGER_PATH
+        _harness = RuntimeHarness(config)
+    return _harness
+
+
+@mcp.tool()
+def harness_process(agent_id: str, action: str, event: dict,
+                    content: str = None, task_id: str = None,
+                    event_id: str = None) -> str:
+    """标准笼头主管线：身份→熔断→结算(可选)→围栏→影子→输出→台账，一次跑完。
+    返回统一判定（ALLOW/DENY + 命中段 + 全程 trace）。content 提供时走输出段
+    （无信符不出闸）；task_id 提供且结算段开启时走认领-回写闭环。"""
+    h = _get_harness()
+    verdict = h.process(agent_id, action, event, content, task_id, event_id)
+    return json.dumps(verdict, ensure_ascii=False)
+
+
+@mcp.tool()
+def harness_register_agent(agent_id: str, secret: str, perms: list) -> str:
+    """笼头身份登记：把调用方身份注册进管线的身份段（权限即清单）。
+    secret 仅适用于本地/受信环境，生产环境注册应在带外完成。"""
+    h = _get_harness()
+    ok, status = h.register_agent(agent_id, secret, perms)
+    return json.dumps({"ok": ok, "status": status}, ensure_ascii=False)
+
+
+@mcp.tool()
+def harness_status() -> str:
+    """笼头水位：各段开关、处理量、熔断状态、影子分账、灰度水位一览。"""
+    h = _get_harness()
+    return json.dumps(h.status(), ensure_ascii=False)
+
+
+@mcp.tool()
+def harness_templates() -> str:
+    """场景模板清单：expense（报销闸）/support（客服闸）/embodied（具身设备闸），
+    含各自默认规则包与段参数，一改即适配。"""
+    return json.dumps({"templates": sorted(SCENARIO_TEMPLATES),
+                       "detail": {k: {"name": v["name"],
+                                      "rules": v["rules"]["package"]}
+                                  for k, v in SCENARIO_TEMPLATES.items()}},
+                      ensure_ascii=False)
 
 
 def main():

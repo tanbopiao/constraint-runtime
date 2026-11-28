@@ -2,7 +2,7 @@
 
 # constraint-runtime · 智能体约束运行时组件集
 
-> 给通用智能体/具身智能装上笼头的十个小部件：**围栏规则引擎、影子运行器、熔断停机器、留痕重放器、结算凭证闸、身份闸、输出闸、评测算子、协同闸、注册编排闸**。
+> 给通用智能体/具身智能装上笼头的十个小部件：**围栏规则引擎、影子运行器、熔断停机器、留痕重放器、结算凭证闸、身份闸、输出闸、评测算子、协同闸、注册编排闸**；外加一件**标准笼头（编排层）**——配置驱动，把十件散件按默认管线一次串起来。
 >
 > 元极恒一
 > 纯 Python 标准库实现，零第三方依赖，单文件即用。
@@ -71,6 +71,30 @@
 └──────────────┘
 ```
 
+## 标准笼头（编排层）：散件 → 整机
+
+十件散件各有分工，但「每件单独调」不等于「整机在跑」。`runtime_harness.py` 是标准笼头——一个编排器把散件按**默认管线**串起来：
+
+```
+身份 → 熔断 → 结算(可选) → 围栏 → 影子 → 输出 → 台账
+```
+
+- **配置即数据**：管线开关与参数来自配置 dict 或 JSON 文件，改配置不改代码；
+- **场景模板**：内置 `expense`（报销闸）/`support`（客服闸）/`embodied`（具身设备闸）三个模板，各自带默认规则包与段参数，一改即适配；
+- **判定与故障分离**：围栏拦截是「制度在起作用」（记成功），规则包损坏/内部异常是「系统带病」（喂熔断、宁可停机）——两者不混；
+- **一次调用全程留痕**：`process()` 返回统一判定（ALLOW/DENY＋命中段＋全程 trace），判定入哈希链。
+
+```python
+from runtime_harness import RuntimeHarness
+
+h = RuntimeHarness.from_template("expense")          # 报销闸模板
+h.register_agent("agent-1", "secret-1", ["submit"])
+v = h.process("agent-1", "submit",
+              {"fields": {"amount": 500, "category": "餐饮"}},
+              content="报销单已提交")
+# v = {"decision": "ALLOW", "stage": "done", "trace": [...], ...}
+```
+
 ## 十分钟上手
 
 ```bash
@@ -81,7 +105,7 @@ bash quickstart.sh        # 一条命令：自检 → 端到端演示 → 篡改
 
 `quickstart.sh` 会依次跑完三步，全程约 1 分钟：
 
-1. **十件组件自检**——每个部件各自证明自己是好的；
+1. **十一件自检**——每个部件各自证明自己是好的（含编排层）；
 2. **端到端演示**——看四段输出：围栏拦截（BLOCK）、影子记账（只记不拦）、影子对照报告与转正建议、哈希链校验与重放一致性；
 3. **篡改发现实验**——亲手把台账里一笔 5000 改成 50，链校验当场报不一致。
 
@@ -110,9 +134,14 @@ python3 src/settlement_receipt_gate.py selftest
 python3 src/identity_gate.py selftest
 python3 src/output_gate.py selftest
 python3 src/eval_replay.py selftest
+python3 src/coord_gate.py selftest
+python3 src/registry_gate.py selftest
+python3 src/runtime_harness.py selftest
 ```
 
 ## 用法示例
+
+### 散件直用：围栏规则引擎
 
 ```python
 from fence_rule_engine import FenceEngine
@@ -152,8 +181,9 @@ verdict = engine.evaluate({
 }
 ```
 
-三十一个工具，按治理链分组：
+三十五个工具，按治理链分组：
 
+- **编排层（标准笼头）**：`harness_process`（主管线一次跑完）、`harness_register_agent`（笼头身份登记）、`harness_status`（笼头水位）、`harness_templates`（场景模板清单）
 - **围栏**：`fence_evaluate`（围栏判定）、`fence_reload`（规则热更）
 - **影子与熔断**：`shadow_feed`（影子投喂）、`shadow_report`（影子报告与转正建议）、`breaker`（熔断控制）
 - **身份与输出**：`identity_register`（注册即登记）、`identity_challenge`（发起握手挑战）、`identity_handshake`（挑战-应答核验）、`identity_authorize`（权限即清单判定）、`output_issue`（签发输出信符）、`output_release`（无信符不出闸）、`output_watermark`（灰度水位账本）
@@ -175,7 +205,7 @@ verdict = engine.evaluate({
 | L5 审计 | 留痕重放器（各组件哈希链同构） | 治理约束可核查 |
 | L6 评测 | 评测算子 | 评测指标与技术标准 |
 | 横切 · 多智能体协同 | 协同闸（T-02 细则落地：追加式条目、三策略仲裁、组合行为风控）；各组件事件同入哈希链，跨组件可对账 | 跨域协同 |
-| 横切 · 组件注册与编排 | 注册编排闸（查重先行、版本只进不退、真值＋目录树双落位） | 组件注册与编排 |
+| 横切 · 组件注册与编排 | 注册编排闸（查重先行、版本只进不退、真值＋目录树双落位）＋标准笼头（配置驱动编排层，默认管线串起散件） | 组件注册与编排 |
 
 规范第 06 章的「要求 + 判定规则 + 证据要求」三段式，在本组件集中落地为：每条要求有可执行判定规则（selftest 即判定），每条结论有哈希链证据（篡改可发现）。
 
@@ -197,6 +227,7 @@ verdict = engine.evaluate({
 
 - 本组件集是**运行时约束**工具，不替代上线前的评测准入（该不该放进来，先考过再说）；
 - 哈希链防篡改的边界：能同时修改文件与台账的本地攻击者不在防御范围内，主张仅限「对账不一致可发现」；
+- 编排层只做单机编排：不解决跨进程并发与分布式一致性，配置文件与台账文件能被同时改写的本地攻击者不在防御范围内；
 - 影子转正、熔断阈值需要结合业务场景调参，组件提供机制，不提供万能默认值。
 
 ## License

@@ -6,8 +6,8 @@ cd "$(dirname "$0")"
 
 start=$(date +%s)
 
-echo "════ 第 1 步 · 十件组件自检 ════"
-for m in fence_rule_engine shadow_runner circuit_breaker replay_ledger settlement_receipt_gate identity_gate output_gate eval_replay; do
+echo "════ 第 1 步 · 十一件自检（十件组件＋编排层） ════"
+for m in fence_rule_engine shadow_runner circuit_breaker replay_ledger settlement_receipt_gate identity_gate output_gate eval_replay coord_gate registry_gate runtime_harness; do
   echo "--- $m ---"
   python3 "src/$m.py" selftest
 done
